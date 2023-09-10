@@ -32,12 +32,7 @@ public class TouristPlace {
         this.tags = tags;
     }
 
-    public TouristPlace(User creator, String title, String description, List<Tag> tags) {
-        this.creator = creator;
-        this.title = title;
-        this.description = description;
-        this.tags = tags;
-    }
+
 
     public String getId() {
         return id;

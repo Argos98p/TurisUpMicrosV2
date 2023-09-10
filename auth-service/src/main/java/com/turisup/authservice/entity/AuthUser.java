@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -14,24 +17,19 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Data
 @Builder
-@Entity
-@Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
-})
+@Node("UserApp ")
 public class AuthUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(UUIDStringGenerator.class)
+    private String id;
     private String userName;
     private String password;
     @Email
-    @Column(nullable = false)
     private String email;
     private String role;
     private String imageUrl;
     @NotNull
-    @Enumerated(EnumType.STRING)
     private AuthProvider provider;
     private String providerId;
     private String emailVerified;
