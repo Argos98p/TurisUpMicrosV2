@@ -1,6 +1,6 @@
 spring:
   application:
-    name: resource-service
+    name: resources-service
   neo4j:
     uri: bolt://localhost:7687
     authentication:
