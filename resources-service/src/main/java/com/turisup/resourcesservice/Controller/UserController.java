@@ -6,14 +6,11 @@ import com.turisup.resourcesservice.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RequestMapping("/resources")
 @RestController
 public class UserController {
     public final UserService userService;
@@ -23,13 +20,13 @@ public class UserController {
     }
 
 
-    @PostMapping("/api/v2/user/add")
+    @PostMapping("/user/add")
     public ResponseEntity<User> addUser(@RequestBody User user){
         User user2 = userService.addUser(user);
         return new ResponseEntity<>(user2, HttpStatus.OK);
     }
 
-    @GetMapping("/api/v2/user/all")
+    @GetMapping("/user/all")
     public ResponseEntity<List<User>> allUser(){
         List<User> users = userService.findAll();
         return new ResponseEntity<>(users,HttpStatus.OK);

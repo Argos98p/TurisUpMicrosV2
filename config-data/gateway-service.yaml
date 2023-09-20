@@ -30,4 +30,4 @@ spring:
         - id: resources-service
           uri: lb://resources-service
           predicates:
-            - Path=/api/v2/user//**
+            - Path=/resources/**
