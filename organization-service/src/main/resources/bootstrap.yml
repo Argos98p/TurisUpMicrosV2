@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: organization-service
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: secret
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081
+

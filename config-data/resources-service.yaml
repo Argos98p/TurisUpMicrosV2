@@ -10,7 +10,19 @@ eureka:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   admin-paths:
     paths:
-      - uri: "/touristplace/save/{1}[1-9]+[0-9]*"
+      - uri: "/resources/place/save/{1}[1-9]+[0-9]*"
         method: "POST"
-      - uri: "/touristplace/all"
+      - uri: "/resources/place/all"
+        method: "GET"
+      - uri: "/resources/organization/add/{1}[1-9]+[0-9]*"
+        method: "POST"
+      - uri: "/resources/organization/all"
+        method: "GET"
+      - uri: "/resources/region/add/{1}[1-9]+[0-9]*"
+        method: "POST"
+      - uri: "/resources/region/all"
+        method: "GET"
+      - uri: "/resources/tag/add/{1}[1-9]+[0-9]*"
+        method: "POST"
+      - uri: "/resources/tag/all"
         method: "GET"

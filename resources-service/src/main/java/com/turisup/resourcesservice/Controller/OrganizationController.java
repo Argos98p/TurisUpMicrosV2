@@ -5,13 +5,10 @@ import com.turisup.resourcesservice.Model.Organization;
 import com.turisup.resourcesservice.Service.OrganizationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RequestMapping("/resources")
 @RestController
 public class OrganizationController {
     private final OrganizationService organizationService;
@@ -21,13 +18,13 @@ public class OrganizationController {
     }
 
 
-    @PostMapping("/api/v2/organization/add")
+    @PostMapping("/organization/add")
     public ResponseEntity<Organization> addOrganization(@RequestBody Organization organization){
         Organization myOrganization = organizationService.addOrganization(organization);
         return new ResponseEntity<>(myOrganization, HttpStatus.CREATED);
     }
 
-    @GetMapping("/api/v2/organization/all")
+    @GetMapping("/organization/all")
     public ResponseEntity<List<Organization>> allOrganizations(){
         List<Organization> organizationList = organizationService.allOrganization();
         return new ResponseEntity<>(organizationList,HttpStatus.OK);

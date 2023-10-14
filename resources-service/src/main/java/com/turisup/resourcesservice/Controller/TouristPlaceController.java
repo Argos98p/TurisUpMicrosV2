@@ -10,15 +10,13 @@ import com.turisup.resourcesservice.Service.TouristPlaceService;
 import com.turisup.resourcesservice.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/resources")
 public class TouristPlaceController {
 
     TouristPlaceService touristPlaceService;
@@ -32,7 +30,7 @@ public class TouristPlaceController {
         this.tagService = tagService;
     }
 
-    @PostMapping("/touristplace/save")
+    @PostMapping("/place/save")
     public ResponseEntity<TouristPlace> addTouristPlace(@RequestBody TouristPlaceDao touristPlaceDao){
 
        User user = userService.findById(touristPlaceDao.getUserId())
@@ -52,7 +50,7 @@ public class TouristPlaceController {
         return new ResponseEntity<>(touristPlace2, HttpStatus.OK);
     }
 
-    @GetMapping("/touristplace/all")
+    @GetMapping("/place/all")
     public ResponseEntity<List<TouristPlace>> allTouristPlace(){
         List<TouristPlace> touristPlaces = touristPlaceService.getAllTouristPlaces();
         return new ResponseEntity<>(touristPlaces,HttpStatus.OK);
