@@ -40,4 +40,12 @@ public class AuthUserController {
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(authUser);
     }
+
+    @GetMapping("/getUser")
+    public ResponseEntity<AuthUser> userFromToken(@RequestParam String token){
+        AuthUser authUser = authUserService.getUserFromToken(token);
+        if(authUser == null)
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(authUser);
+    }
 }

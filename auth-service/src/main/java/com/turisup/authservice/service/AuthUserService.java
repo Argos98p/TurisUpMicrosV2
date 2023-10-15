@@ -61,4 +61,12 @@ public class AuthUserService {
             return null;
         return new TokenDto(token);
     }
+
+    public AuthUser getUserFromToken(String token){
+        String email = jwtProvider.getEmailFromToken(token);
+
+        if(authUserRepository.findByEmail(email).isPresent())
+            return authUserRepository.findByEmail(email).get();
+        return  null;
+    }
 }
