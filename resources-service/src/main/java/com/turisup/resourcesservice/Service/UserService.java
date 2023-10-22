@@ -22,6 +22,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    /*
+    @Transactional
+    public User updateUser (User user){return  userRepository.update(
+            user.getUserName(),
+            user.getEmail(),
+            user.getRole(),
+            user.getImageUrl()
+    );}*/
+
 
     public Optional<User> findById(String id){
         return userRepository.findById(id);

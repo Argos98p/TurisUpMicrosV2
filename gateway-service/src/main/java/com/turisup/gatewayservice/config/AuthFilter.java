@@ -30,6 +30,8 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             String [] chunks = tokenHeader.split(" ");
             if(chunks.length != 2 || !chunks[0].equals("Bearer"))
                 return onError(exchange, HttpStatus.BAD_REQUEST);
+
+
             return webClient.build()
                     .post()
                     .uri("http://auth-service/auth/validate?token=" + chunks[1])

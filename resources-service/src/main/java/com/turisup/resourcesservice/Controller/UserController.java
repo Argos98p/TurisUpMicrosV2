@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/resources")
+@RequestMapping("/resources/user")
 @RestController
 public class UserController {
     public final UserService userService;
@@ -20,16 +20,18 @@ public class UserController {
     }
 
 
-    @PostMapping("/user/add")
+    @PostMapping("/add")
     public ResponseEntity<User> addUser(@RequestBody User user){
         User user2 = userService.addUser(user);
         return new ResponseEntity<>(user2, HttpStatus.OK);
     }
 
-    @GetMapping("/user/all")
+    @GetMapping("/all")
     public ResponseEntity<List<User>> allUser(){
         List<User> users = userService.findAll();
         return new ResponseEntity<>(users,HttpStatus.OK);
     }
+
+
 
 }

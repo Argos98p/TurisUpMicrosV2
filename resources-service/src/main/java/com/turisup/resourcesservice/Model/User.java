@@ -12,18 +12,18 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 public class User {
     @Id @GeneratedValue(UUIDStringGenerator.class)
     String id;
-    String nick;
-    String firstname;
-    String lastname;
+    String email;
+    String userName;
+    String role;
 
-    String profileImage;
+    String imageUrl;
 
-    public User(String nick, String firstname, String lastname, String profileImage) {
-        this.nick = nick;
-        this.firstname = firstname;
-        this.lastname = lastname;
+    public User(String email, String firstname, String lastname, String profileImage) {
+        this.email = email;
+        this.userName = firstname;
+        this.role = lastname;
 
-        this.profileImage = profileImage;
+        this.imageUrl = profileImage;
     }
 
     public String getId() {
@@ -34,35 +34,35 @@ public class User {
         this.id = id;
     }
 
-    public String getNick() {
-        return nick;
+    public String getEmail() {
+        return email;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getRole() {
+        return role;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public String getProfileImage() {
-        return profileImage;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

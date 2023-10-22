@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
 @ConfigurationProperties(prefix = "admin-paths")
 public class RouteValidator {
 
-    private List<RequestDto> paths;
+    private List<RequestDto> paths =new ArrayList<>();
 
     public void setPaths(List<RequestDto> paths) {
         this.paths = paths;
