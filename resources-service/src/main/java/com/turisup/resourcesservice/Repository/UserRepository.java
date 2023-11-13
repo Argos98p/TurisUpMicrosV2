@@ -6,8 +6,12 @@ import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 
-public interface UserRepository extends Neo4jRepository<User, String > {
+
+public interface UserRepository extends Neo4jRepository<User, Long > {
+
+    List<User> findAll();
 
     /*
     @Transactional

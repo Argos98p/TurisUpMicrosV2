@@ -9,8 +9,10 @@ import com.turisup.authservice.entity.AuthUser;
 import com.turisup.authservice.repository.AuthUserRepository;
 import com.turisup.authservice.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -47,7 +49,7 @@ public class AuthUserService {
     public TokenDto login(AuthUserDto dto) {
         Optional<AuthUser> user = authUserRepository.findByEmail(dto.getEmail());
         if(!user.isPresent())
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
         if(passwordEncoder.matches(dto.getPassword(), user.get().getPassword()))
             return new TokenDto(jwtProvider.createToken(user.get()));
         return null;

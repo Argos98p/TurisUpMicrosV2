@@ -28,9 +28,10 @@ public class RegionController {
     @PostMapping("/region/add")
     public ResponseEntity<Region> addRegion(@RequestBody RegionDao regionDao){
         System.out.println(regionDao.getName());
-        Organization org = organizationService.findById(regionDao.getOrganizationid())
+        Organization org = organizationService.findById(regionDao.getOrganizationId())
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Organizacion no encontrada"));
-        Region myRegion = regionService.addRegion(new Region(regionDao.getName(), regionDao.getDescription(),regionDao.getCoordinates(),org));
+
+        Region myRegion = regionService.addRegion( regionDao.getCoordinates(),new Region(regionDao.getName(), regionDao.getDescription(),regionDao.coordinatesToJsonString()), regionDao.getOrganizationId());
 
         return new ResponseEntity<>(myRegion, HttpStatus.CREATED);
     }
@@ -40,4 +41,13 @@ public class RegionController {
         List<Region> regiones = regionService.allRegions();
         return new ResponseEntity<>(regiones, HttpStatus.OK);
     }
+
+    @PostMapping("/region/delete")
+    public  ResponseEntity<String> deleteRegion(@RequestParam Long regionId){
+        if(regionService.deleteRegion(regionId)){
+            return new ResponseEntity<>("Region eliminada", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No se pudo eliminar", HttpStatus.OK);
+    }
+
 }

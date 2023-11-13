@@ -17,12 +17,12 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Data
 @Builder
-@Node("UserApp ")
+@Node("UserApp")
 public class AuthUser {
 
     @Id
-    @GeneratedValue(UUIDStringGenerator.class)
-    private String id;
+    @GeneratedValue
+    private Long id;
     private String userName;
     private String password;
     @Email

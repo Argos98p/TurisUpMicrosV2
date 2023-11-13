@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AuthUserRepository extends Neo4jRepository<AuthUser,String>  {
+public interface AuthUserRepository extends Neo4jRepository<AuthUser,Long>  {
     Optional<AuthUser> findByUserName(String username);
     Optional<AuthUser> findByEmail(String email);
 }

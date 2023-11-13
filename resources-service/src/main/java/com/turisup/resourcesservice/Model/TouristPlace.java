@@ -1,70 +1,38 @@
 package com.turisup.resourcesservice.Model;
 
+import lombok.Data;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Node("TouristPlace")
-
+@Data
 public class TouristPlace {
     @Id
-    @GeneratedValue(UUIDStringGenerator.class)
-    private String id;
+    @GeneratedValue
+    private Long id;
     @Relationship(type = "CREATED_BY",direction = Relationship.Direction.OUTGOING)
     private User creator;
     private String title;
     private String description;
-    @Relationship(type = "HAS_TAG",direction = Relationship.Direction.OUTGOING)
-    private List<Tag> tags;
+    //@Relationship(type = "HAS_TAG",direction = Relationship.Direction.OUTGOING)
+    //private List<Tag> tags;
 
-    public List<Tag> getTags() {
-        return tags;
-    }
+    @Relationship(type = "HAS_OFFICIAL_MEDIA",direction = Relationship.Direction.OUTGOING)
+    public List<OficialMedia> oficialMedia;
 
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
+    @Relationship(type = "COMMENTS", direction = Relationship.Direction.OUTGOING)
+    public List<Comment> comments;
 
-    public TouristPlace(User creator, String title, String description, List<Tag> tags) {
-        this.creator = creator;
-        this.title = title;
-        this.description = description;
-        this.tags = tags;
-    }
+    private double latitude;
+    private double longitude;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public User getCreator() {
-        return creator;
-    }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

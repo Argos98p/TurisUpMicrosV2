@@ -2,20 +2,33 @@ package com.turisup.resourcesservice.Model.Dao;
 
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.turisup.resourcesservice.Model.Coordinate;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class RegionDao {
     String name;
     String description;
-    double[][] coordinates;
-    String organizationid;
+    private List<Coordinate> coordinates;
+    Long organizationId;
 
-    public RegionDao(String name, String description, double[][] coordinates, String organizationid) {
+    public List<Coordinate> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(List<Coordinate> coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public RegionDao(String name, String description, Long organizationid, List<Coordinate> coordinates) {
         this.name = name;
         this.description = description;
+        this.organizationId = organizationid;
         this.coordinates = coordinates;
-        this.organizationid = organizationid;
     }
 
     public String getName() {
@@ -30,17 +43,24 @@ public class RegionDao {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getOrganizationid() {
-        return organizationid;
+    public Long getOrganizationId() {
+        return organizationId;
     }
-    public void setOrganizationid(String organizationid) {
-        this.organizationid = organizationid;
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
-    public double[][] getCoordinates() {
-        return coordinates;
+
+    public String coordinatesToJsonString() {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            // Convierte la lista de coordenadas a una cadena JSON
+            return objectMapper.writeValueAsString(this.coordinates);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace(); // Manejo de errores, puedes personalizar esto según tus necesidades
+            return null;
+        }
     }
-    public void setCoordinates(double[][] coordinates) {
-        this.coordinates = coordinates;
-    }
+
 }
 

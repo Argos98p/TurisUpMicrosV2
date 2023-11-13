@@ -34,7 +34,7 @@ public class JwtProvider {
         claims.put("id", authUser.getId());
         claims.put("role", authUser.getRole());
         Date now = new Date();
-        Date exp = new Date(now.getTime() + 3600000);
+        Date exp = new Date(now.getTime() * 3600000);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)

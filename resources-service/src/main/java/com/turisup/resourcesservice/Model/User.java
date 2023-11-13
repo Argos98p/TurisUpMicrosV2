@@ -6,63 +6,24 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 @Data
-@Node("User")
+@Node("UserApp ")
 
 public class User {
-    @Id @GeneratedValue(UUIDStringGenerator.class)
-    String id;
-    String email;
-    String userName;
-    String role;
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String userName;
+    //private String password;
+    @Email
+    private String email;
+    private String role;
+    private String imageUrl;
 
-    String imageUrl;
-
-    public User(String email, String firstname, String lastname, String profileImage) {
-        this.email = email;
-        this.userName = firstname;
-        this.role = lastname;
-
-        this.imageUrl = profileImage;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+    //private AuthProvider provider;
+    private String providerId;
+    private String emailVerified;
 }
