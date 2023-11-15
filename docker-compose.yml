@@ -1,0 +1,26 @@
+version: "1"
+services:
+  auth-service:
+    image: argos98p/auth-service
+    ports:
+      - "8080:8080"
+    networks:
+      - turisup-network
+    depends_on:
+      - neo4jdb
+
+  neo4jdb:
+    image: neo4j:4.4-community
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - $HOME/neo4j/data:/data
+    networks:
+      - turisup-network
+    environment:
+      - NEO4J_AUTH=none
+ 
+
+networks:
+  turisup-network: 
