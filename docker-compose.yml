@@ -1,14 +1,44 @@
 version: "1"
 services:
-  auth-service:
-    image: argos98p/auth-service
+
+  config-service:
+    image: config-service
     ports:
-      - "8080:8080"
+      - "8081:8081"
     networks:
       - turisup-network
     depends_on:
-      - neo4jdb
+      - eureka-service
 
+  eureka-service:
+    container_name: eureka-service
+    image: eureka-service
+    ports:
+      - "8761:8761"
+    networks:
+      - turisup-network
+    
+
+#  auth-service:
+#    image: auth-service
+#    networks:
+#      - turisup-network
+#    depends_on:
+#      - neo4jdb
+#      - config-service
+#      - eureka-service
+#
+#  gateway-service:
+#    image: auth-service
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - turisup-network
+#    depends_on:
+#      - neo4jdb
+#      - config-service
+#      - eureka-service
+#
   neo4jdb:
     image: neo4j:4.4-community
     ports:
