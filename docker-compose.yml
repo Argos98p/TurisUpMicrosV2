@@ -1,14 +1,15 @@
 version: "1"
 services:
 
+  
+  
   config-service:
     image: config-service
     ports:
       - "8081:8081"
     networks:
       - turisup-network
-    depends_on:
-      - eureka-service
+    
 
   eureka-service:
     container_name: eureka-service
@@ -17,6 +18,8 @@ services:
       - "8761:8761"
     networks:
       - turisup-network
+    #depends_on:
+     # - config-service
     
 
 #  auth-service:
@@ -39,17 +42,17 @@ services:
 #      - config-service
 #      - eureka-service
 #
-  neo4jdb:
-    image: neo4j:4.4-community
-    ports:
-      - "7474:7474"
-      - "7687:7687"
-    volumes:
-      - $HOME/neo4j/data:/data
-    networks:
-      - turisup-network
-    environment:
-      - NEO4J_AUTH=none
+#  neo4jdb:
+#    image: neo4j:4.4-community
+#    ports:
+#      - "7474:7474"
+#      - "7687:7687"
+#    volumes:
+#      - $HOME/neo4j/data:/data
+#    networks:
+#      - turisup-network
+#    environment:
+#      - NEO4J_AUTH=none
  
 
 networks:
