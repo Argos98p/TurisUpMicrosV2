@@ -1,15 +1,15 @@
 package com.turisup.resourcesservice.Controller;
 
 import com.google.gson.Gson;
-import com.turisup.resourcesservice.Model.Comment;
+import com.turisup.resourcesservice.Model.*;
 import com.turisup.resourcesservice.Model.Dao.TouristPlaceDao;
-import com.turisup.resourcesservice.Model.Tag;
-import com.turisup.resourcesservice.Model.TouristPlace;
-import com.turisup.resourcesservice.Model.User;
+import com.turisup.resourcesservice.Model.Response.*;
 import com.turisup.resourcesservice.Repository.UserRepository;
+import com.turisup.resourcesservice.Service.OrganizationService;
 import com.turisup.resourcesservice.Service.TagService;
 import com.turisup.resourcesservice.Service.TouristPlaceService;
 import com.turisup.resourcesservice.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +29,9 @@ public class TouristPlaceController {
 
     TagService tagService;
 
+    @Autowired
+    OrganizationService organizationService;
+
     public TouristPlaceController(TouristPlaceService touristPlaceService, UserService userService, TagService tagService) {
         this.touristPlaceService = touristPlaceService;
         this.userService = userService;
@@ -37,17 +40,13 @@ public class TouristPlaceController {
 
    // @PostMapping("")
     @RequestMapping(path = "/place/save", method = RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<TouristPlace> addTouristPlace(@RequestParam("resource") String jsonString, @RequestParam("files") MultipartFile[] files     /*@RequestBody TouristPlaceDao touristPlaceDao*/){
-
-
+    public ResponseEntity<TouristPlaceResponse> addTouristPlace(@RequestParam("resource") String jsonString, @RequestParam("files") MultipartFile[] files     /*@RequestBody TouristPlaceDao touristPlaceDao*/){
 
         Gson g = new Gson();
         TouristPlaceDao touristPlaceDao = g.fromJson(jsonString, TouristPlaceDao.class);
 
         User user = userService.findById(touristPlaceDao.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
-
-
 
        List<Tag> tags = new ArrayList<Tag>();
       /* for(int i = 0;i<touristPlaceDao.getTagsIds().size();i++){
@@ -57,13 +56,38 @@ public class TouristPlaceController {
        }*/
 
 
-
-
-
         TouristPlace touristPlace2 = touristPlaceService.addTouristPlace(touristPlaceDao,files, user);
 
+        List<OficialMediaResponse> oficialMediaResponses= new ArrayList<>();
+        for(OficialMedia oficialMedia : touristPlace2.getOficialMedia()){
+            oficialMediaResponses.add(new OficialMediaResponse(oficialMedia.getId(), oficialMedia.getUrl(), oficialMedia.getUser().getId(),oficialMedia.getUser().getUserName()));
 
-        return new ResponseEntity<>(touristPlace2, HttpStatus.OK);
+        }
+
+        List<CommentsResponse> commentsResponses = new ArrayList<>();
+
+        TouristPlaceResponse response = new TouristPlaceResponse(
+             touristPlace2.getId(),
+                touristPlace2.getTitle(),
+                touristPlace2.getDescription(),
+                new Coordinate(touristPlace2.getLatitude(),touristPlace2.getLongitude()),
+                touristPlace2.getStatus(),
+                new UserResponse(touristPlace2.getCreator().getEmail(),touristPlace2.getCreator().getUserName(),touristPlace2.getCreator().getImageUrl() ),
+                oficialMediaResponses,
+                commentsResponses,
+                null,
+                null
+        );
+
+        if(touristPlace2.getRegion()!=null){
+            response.setRegion(new RegionResponse(touristPlace2.getRegion().getId(),touristPlace2.getRegion().getName(),""));
+            Organization org = organizationService.getOrganizationByRegionId(touristPlace2.getRegion().getId());
+            response.setOrganization(new OrganizationResponse(org.getId(), org.getName(), org.getLogo()));
+
+        }
+
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/place/all")

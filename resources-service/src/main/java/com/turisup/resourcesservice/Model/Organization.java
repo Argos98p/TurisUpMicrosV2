@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Node
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Organization {
     @Id
     @GeneratedValue Long id;

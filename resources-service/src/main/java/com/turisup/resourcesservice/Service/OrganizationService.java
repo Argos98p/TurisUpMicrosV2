@@ -2,6 +2,7 @@ package com.turisup.resourcesservice.Service;
 
 
 import com.turisup.resourcesservice.Model.Organization;
+import com.turisup.resourcesservice.Model.Region;
 import com.turisup.resourcesservice.Model.User;
 import com.turisup.resourcesservice.Repository.OrganizationReposiotry;
 import com.turisup.resourcesservice.Repository.UserRepository;
@@ -70,5 +71,9 @@ public class OrganizationService {
 
     public void addRegionToOrganization(Long organizationId, Long regionId) {
         organizationReposiotry.addRegionToOrganization(organizationId, regionId);
+    }
+
+    public Organization getOrganizationByRegionId(Long regionId){
+        return organizationReposiotry.findOrganizationByRegionId(regionId);
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 import java.util.List;
 
 @Node
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class Region {
     @Id
     @GeneratedValue

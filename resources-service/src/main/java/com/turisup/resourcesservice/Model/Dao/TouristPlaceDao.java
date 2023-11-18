@@ -13,6 +13,8 @@ public class TouristPlaceDao {
     private Long userId;
     private double latitude;
     private double longitude;
+
+    private String status;
    // private List<String> tagsIds;
 
 

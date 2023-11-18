@@ -12,4 +12,8 @@ public interface OrganizationReposiotry extends Neo4jRepository<Organization,Lon
             "CREATE (r)-[:BELONGS_TO]->(o)")
     void addRegionToOrganization(@Param("organizationId") Long organizationId, @Param("regionId") Long regionId);
 
+
+    @Query("MATCH (org:Organization)-[:MANAGED]->(region:Region) WHERE ID(region) = $regionId RETURN org")
+    Organization findOrganizationByRegionId(@Param("regionId") Long regionId);
+
 }

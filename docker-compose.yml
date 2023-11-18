@@ -18,41 +18,49 @@ services:
       - "8761:8761"
     networks:
       - turisup-network
+
+
+  networks:
+    turisup-network: 
     #depends_on:
      # - config-service
     
 
-#  auth-service:
-#    image: auth-service
-#    networks:
-#      - turisup-network
-#    depends_on:
-#      - neo4jdb
-#      - config-service
-#      - eureka-service
+  auth-service:
+    image: auth-service
+    networks:
+      - turisup-network
+    environment: 
+      - eureka.client.serviceUrl.defaultZone=http://eureka-service:8761/eureka/
+    depends_on:
+      - neo4jdb
+      - config-service
+      - eureka-service
+
+  gateway-service:
+    image: gateway-service
+    ports:
+      - "8080:8080"
+    networks:
+      - turisup-network
+    environment: 
+      - eureka.client.serviceUrl.defaultZone=http://eureka-service:8761/eureka/
+    depends_on:
+      - neo4jdb
+      - config-service
+      - eureka-service
 #
-#  gateway-service:
-#    image: auth-service
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      - turisup-network
-#    depends_on:
-#      - neo4jdb
-#      - config-service
-#      - eureka-service
-#
-#  neo4jdb:
-#    image: neo4j:4.4-community
-#    ports:
-#      - "7474:7474"
-#      - "7687:7687"
-#    volumes:
-#      - $HOME/neo4j/data:/data
-#    networks:
-#      - turisup-network
-#    environment:
-#      - NEO4J_AUTH=none
+  neo4jdb:
+    image: neo4j:4.4-community
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - $HOME/neo4j/data:/data
+    networks:
+      - turisup-network
+    environment:
+      - NEO4J_AUTH=none
  
 
 networks:

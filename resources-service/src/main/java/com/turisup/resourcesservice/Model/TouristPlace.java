@@ -32,7 +32,8 @@ public class TouristPlace {
     private double latitude;
     private double longitude;
 
+    private String status;
 
-
-
+    @Relationship(type="LOCATED_IN", direction = Relationship.Direction.OUTGOING)
+    public Region region;
 }
