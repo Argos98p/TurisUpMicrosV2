@@ -1,7 +1,30 @@
+#spring:
+#  application:
+#    name: eureka-service
+#    profiles:
+#      active: dev
+#  cloud:
+#    config:
+#      enabled: true
+#      uri: http://localhost:8081
+
 spring:
   application:
     name: eureka-service
-  cloud:
-    config:
-      enabled: true
-      uri: http://config-service:8081
+    profiles:
+      active: dev
+
+cloud:
+  config:
+    enabled: true
+    uri: http://localhost:8081
+
+---
+spring:
+  application:
+    name: eureka-service
+    profiles: prod
+
+cloud:
+  config:
+    uri: http://config-service:8081

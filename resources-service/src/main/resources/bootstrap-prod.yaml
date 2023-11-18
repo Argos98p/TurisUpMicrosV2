@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: resources-service
+  neo4j:
+    uri: bolt://neo4jdb:7687
+    authentication:
+      username: neo4j
+      password: secret
+  cloud:
+    config:
+      enabled: true
+      uri: http://config-service:8081
+file:
+  upload-dir: ../data/
+jwt:
+  secret: secret
+server:
+  error:
+    include-message: always
