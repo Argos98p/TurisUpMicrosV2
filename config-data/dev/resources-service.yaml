@@ -1,0 +1,34 @@
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  admin-paths:
+    paths:
+      - uri: "/resources/place/save/{1}[1-9]+[0-9]*"
+        method: "POST"
+      - uri: "/resources/place/all"
+        method: "GET"
+      - uri: "/resources/organization/add/{1}[1-9]+[0-9]*"
+        method: "POST"
+      - uri: "/resources/organization/all"
+        method: "GET"
+      - uri: "/resources/region/add/{1}[1-9]+[0-9]*"
+        method: "POST"
+      - uri: "/resources/region/all"
+        method: "GET"
+      - uri: "/resources/tag/add/{1}[1-9]+[0-9]*"
+        method: "POST"
+      - uri: "/resources/tag/all"
+        method: "GET"
+      - uri: "/admin/updateUser"
+        method: "POST"
+      - uri: "/resources/user/add"
+        method: "POST"
+      - uri: "/resources/user/all"
+        method: "GET"

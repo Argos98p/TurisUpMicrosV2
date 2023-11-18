@@ -7,6 +7,8 @@ spring:
         git:
           default-label: main
           uri: https://github.com/Argos98p/TurisUpMicrosV2.git
-          search-paths: config-data
+          search-paths: config-data/{profile}
   application:
     name: config-service
+  profiles:
+    active: dev
