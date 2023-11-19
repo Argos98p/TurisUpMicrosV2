@@ -25,10 +25,6 @@ spring:
     authentication:
       username: neo4j
       password: secret
-  cloud:
-    config:
-      enabled: true
-      uri: http://config-service:8081
 
 jwt:
   secret: secret
