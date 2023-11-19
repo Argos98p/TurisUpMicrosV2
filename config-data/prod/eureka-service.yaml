@@ -9,6 +9,10 @@ eureka:
 
 spring:
   http:
-        multipart:
-            max-file-size: 200MB
-            max-request-size: 200MB
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+  servlet:
+      multipart:
+        max-file-size: 200MB
+        max-request-size: 200MB
