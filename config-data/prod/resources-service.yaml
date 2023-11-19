@@ -32,3 +32,9 @@ eureka:
         method: "POST"
       - uri: "/resources/user/all"
         method: "GET"
+
+spring:
+  http:
+        multipart:
+            max-file-size: 200MB
+            max-request-size: 200MB

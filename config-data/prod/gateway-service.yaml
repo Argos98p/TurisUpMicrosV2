@@ -28,3 +28,8 @@ spring:
             - Path=/resources/**
           filters:
             - AuthFilter
+
+  http:
+        multipart:
+            max-file-size: 200MB
+            max-request-size: 200MB
