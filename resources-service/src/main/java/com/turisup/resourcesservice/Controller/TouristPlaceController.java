@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.turisup.resourcesservice.Model.*;
 import com.turisup.resourcesservice.Model.Dao.TouristPlaceDao;
 import com.turisup.resourcesservice.Model.Response.*;
-import com.turisup.resourcesservice.Repository.UserRepository;
 import com.turisup.resourcesservice.Service.OrganizationService;
 import com.turisup.resourcesservice.Service.TagService;
 import com.turisup.resourcesservice.Service.TouristPlaceService;
@@ -45,7 +44,9 @@ public class TouristPlaceController {
         Gson g = new Gson();
         TouristPlaceDao touristPlaceDao = g.fromJson(jsonString, TouristPlaceDao.class);
 
-        User user = userService.findById(touristPlaceDao.getUserId())
+        System.out.println(touristPlaceDao.getUserId());
+
+        UserApp userApp = userService.findById(touristPlaceDao.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
 
        List<Tag> tags = new ArrayList<Tag>();
@@ -56,11 +57,11 @@ public class TouristPlaceController {
        }*/
 
 
-        TouristPlace touristPlace2 = touristPlaceService.addTouristPlace(touristPlaceDao,files, user);
+        TouristPlace touristPlace2 = touristPlaceService.addTouristPlace(touristPlaceDao,files, userApp);
 
         List<OficialMediaResponse> oficialMediaResponses= new ArrayList<>();
         for(OficialMedia oficialMedia : touristPlace2.getOficialMedia()){
-            oficialMediaResponses.add(new OficialMediaResponse(oficialMedia.getId(), oficialMedia.getUrl(), oficialMedia.getUser().getId(),oficialMedia.getUser().getUserName()));
+            oficialMediaResponses.add(new OficialMediaResponse(oficialMedia.getId(), oficialMedia.getUrl(), oficialMedia.getUserApp().getId(),oficialMedia.getUserApp().getUserName()));
 
         }
 
@@ -76,7 +77,8 @@ public class TouristPlaceController {
                 oficialMediaResponses,
                 commentsResponses,
                 null,
-                null
+                null,
+                userService.isFavoritePlace(userApp.getId(), touristPlace2.getId())
         );
 
         if(touristPlace2.getRegion()!=null){
@@ -91,15 +93,21 @@ public class TouristPlaceController {
     }
 
     @GetMapping("/place/all")
-    public ResponseEntity<List<TouristPlace>> allTouristPlace(){
+    public ResponseEntity<List<TouristPlaceResponse>> allTouristPlace(@RequestParam("userId") Long userId){
         List<TouristPlace> touristPlaces = touristPlaceService.getAllTouristPlaces();
-        return new ResponseEntity<>(touristPlaces,HttpStatus.OK);
+        List<TouristPlaceResponse> finalTouristPlace = new ArrayList<>();
+
+        for (TouristPlace touristPlace : touristPlaces){
+            finalTouristPlace.add(touristPlaceService.ToResponseModel(userId, touristPlace));
+        }
+        return new ResponseEntity<>(finalTouristPlace,HttpStatus.OK);
     }
 
     @GetMapping("/place/{id}")
-    public ResponseEntity<TouristPlace> getTouristPlaceById(@PathVariable Long id){
+    public ResponseEntity<TouristPlaceResponse> getTouristPlaceById(@PathVariable Long id, @RequestParam("userId") Long userId){
         TouristPlace touristPlace =  touristPlaceService.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Lugar no encontrado"));
-        return new ResponseEntity<>(touristPlace,HttpStatus.OK);
+        TouristPlaceResponse touristPlaceResponse = touristPlaceService.ToResponseModel(userId,touristPlace);
+        return new ResponseEntity<>(touristPlaceResponse,HttpStatus.OK);
     }
 
     @GetMapping("/place/{id}/comments")

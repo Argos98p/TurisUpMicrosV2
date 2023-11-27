@@ -5,9 +5,7 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
-import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Node("TouristPlace")
@@ -17,7 +15,7 @@ public class TouristPlace {
     @GeneratedValue
     private Long id;
     @Relationship(type = "CREATED_BY",direction = Relationship.Direction.OUTGOING)
-    private User creator;
+    private UserApp creator;
     private String title;
     private String description;
     //@Relationship(type = "HAS_TAG",direction = Relationship.Direction.OUTGOING)
@@ -36,4 +34,7 @@ public class TouristPlace {
 
     @Relationship(type="LOCATED_IN", direction = Relationship.Direction.OUTGOING)
     public Region region;
+
+
+
 }

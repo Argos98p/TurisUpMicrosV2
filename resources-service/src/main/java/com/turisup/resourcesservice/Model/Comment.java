@@ -18,7 +18,7 @@ public class Comment {
     private int rate;
 
     @Relationship(type = "CREATED_BY",direction = Relationship.Direction.OUTGOING)
-    private User creator;
+    private UserApp creator;
 
     @Relationship(type = "MEDIA", direction = Relationship.Direction.OUTGOING)
     private List<Media> media;

@@ -4,7 +4,6 @@ import com.turisup.resourcesservice.Model.*;
 import com.turisup.resourcesservice.Model.Dao.CommentDao;
 import com.turisup.resourcesservice.Repository.CommentRepository;
 import com.turisup.resourcesservice.Repository.MediaRepository;
-import com.turisup.resourcesservice.Repository.OficialMediaRepository;
 import com.turisup.resourcesservice.Repository.TouristPlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class CommentService {
 
     public Comment addComment(CommentDao commentDao, MultipartFile[] files){
 
-        User user = userService.findById(commentDao.getUserId()).orElseThrow(()-> new ResponseStatusException(NOT_FOUND, "Usuario no encontrado"));
+        UserApp userApp = userService.findById(commentDao.getUserId()).orElseThrow(()-> new ResponseStatusException(NOT_FOUND, "Usuario no encontrado"));
         TouristPlace touristPlace = touristPlaceRepository.findById(commentDao.getTouristPlaceId()).orElseThrow(()->new ResponseStatusException(NOT_FOUND, "Recurso no encontrado"));
 
 
@@ -44,7 +43,7 @@ public class CommentService {
         Comment myComment = new Comment();
         myComment.setContent(commentDao.getContent());
         myComment.setRate(commentDao.getRate());
-        myComment.setCreator(user);
+        myComment.setCreator(userApp);
         myComment.setMedia(new ArrayList<>());
 
         Comment commentAux = commentRepository.save(myComment);
@@ -55,7 +54,7 @@ public class CommentService {
             String routeFile = fileStorageService.storeFile(file,"tourist_places/"+ touristPlace.getId()+"/comments/"+commentAux.getId().toString());
             Media media1 = new Media();
             media1.setUrl(routeFile);
-            media1.setUser(user);
+            media1.setUserApp(userApp);
 
             Media media = mediaRepository.save(media1);
             commentAux.getMedia().add(media);

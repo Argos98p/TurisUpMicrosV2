@@ -1,12 +1,10 @@
 package com.turisup.resourcesservice.Model;
 
 
-import com.fasterxml.jackson.annotation.*;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
-import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,26 +20,26 @@ public class Organization {
     String logo;
 
     @Relationship(type = "MEMBER",direction = Relationship.Direction.OUTGOING)
-    List<User> members;
+    List<UserApp> members;
 
     @Relationship(type = "MANAGED", direction = Relationship.Direction.OUTGOING)
     List<Region> managedRegions ;
 
 
-    public void addMember(User user) {
+    public void addMember(UserApp userApp) {
         if (members == null) {
             members = new ArrayList<>();
         }
-        members.add(user);
+        members.add(userApp);
     }
 
-    public void removeMember (User user){
-        members.remove(user);
+    public void removeMember (UserApp userApp){
+        members.remove(userApp);
     }
 
 
 
-    public void setMembers(List<User> members) {
+    public void setMembers(List<UserApp> members) {
         this.members = members;
     }
 
@@ -58,7 +56,7 @@ public class Organization {
         this.logo = logo;
     }
 
-    public List<User> getMembers() {
+    public List<UserApp> getMembers() {
         return members;
     }
 

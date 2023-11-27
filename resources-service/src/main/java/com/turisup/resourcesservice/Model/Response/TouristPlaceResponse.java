@@ -23,4 +23,5 @@ public class TouristPlaceResponse {
     List<CommentsResponse> comments;
     OrganizationResponse organization;
     RegionResponse region;
+    boolean isFavorite;
 }

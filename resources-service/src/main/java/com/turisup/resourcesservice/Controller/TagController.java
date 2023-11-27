@@ -1,8 +1,6 @@
 package com.turisup.resourcesservice.Controller;
 
 import com.turisup.resourcesservice.Model.Tag;
-import com.turisup.resourcesservice.Model.User;
-import com.turisup.resourcesservice.Repository.TagRepository;
 import com.turisup.resourcesservice.Service.TagService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

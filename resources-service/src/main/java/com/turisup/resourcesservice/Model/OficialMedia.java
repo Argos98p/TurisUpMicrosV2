@@ -14,6 +14,6 @@ public class OficialMedia {
 
     String url;
     @Relationship(type = "OWNER", direction = Relationship.Direction.OUTGOING)
-    User user;
+    UserApp userApp;
 
 }

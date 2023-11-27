@@ -2,10 +2,8 @@ package com.turisup.resourcesservice.Service;
 
 
 import com.turisup.resourcesservice.Model.Organization;
-import com.turisup.resourcesservice.Model.Region;
-import com.turisup.resourcesservice.Model.User;
+import com.turisup.resourcesservice.Model.UserApp;
 import com.turisup.resourcesservice.Repository.OrganizationReposiotry;
-import com.turisup.resourcesservice.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,10 +35,10 @@ public class OrganizationService {
         System.out.println(userId);
         System.out.println(orgId);
         Organization organization = organizationReposiotry.findById(orgId).orElse(null);
-        User user = userService.findById(userId).orElse(null);
+        UserApp userApp = userService.findById(userId).orElse(null);
 
-        if (organization != null && user != null) {
-            organization.addMember(user);
+        if (organization != null && userApp != null) {
+            organization.addMember(userApp);
            return organizationReposiotry.save(organization);
         }
         return  null;
@@ -52,10 +50,10 @@ public class OrganizationService {
         System.out.println(userId);
         System.out.println(orgId);
         Organization organization = organizationReposiotry.findById(orgId).orElse(null);
-        User user = userService.findById(userId).orElse(null);
+        UserApp userApp = userService.findById(userId).orElse(null);
 
-        if (organization != null && user != null) {
-            organization.removeMember(user);
+        if (organization != null && userApp != null) {
+            organization.removeMember(userApp);
             return organizationReposiotry.save(organization);
         }
         return  null;

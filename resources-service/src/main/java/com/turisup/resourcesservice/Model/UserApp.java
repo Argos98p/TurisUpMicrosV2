@@ -4,15 +4,15 @@ import lombok.Data;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
+import org.springframework.data.neo4j.core.schema.Relationship;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
-@Node("UserApp ")
+@Node("UserApp")
 
-public class User {
+public class UserApp {
     @Id
     @GeneratedValue
     private Long id;
@@ -26,4 +26,6 @@ public class User {
     //private AuthProvider provider;
     private String providerId;
     private String emailVerified;
+
+
 }

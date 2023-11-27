@@ -1,13 +1,10 @@
 package com.turisup.resourcesservice.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import com.turisup.resourcesservice.Model.*;
-import com.turisup.resourcesservice.Model.Dao.OrganizationDao;
 import com.turisup.resourcesservice.Model.Dao.TouristPlaceDao;
+import com.turisup.resourcesservice.Model.Response.*;
 import com.turisup.resourcesservice.Repository.OficialMediaRepository;
 import com.turisup.resourcesservice.Repository.TouristPlaceRepository;
 import com.turisup.resourcesservice.utils.PolygonChecker;
@@ -19,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,13 +32,18 @@ public class TouristPlaceService {
     @Autowired
     RegionService regionService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    OrganizationService organizationService;
     public TouristPlaceService(TouristPlaceRepository touristPlaceRepository) {
         this.touristPlaceRepository = touristPlaceRepository;
     }
 
 
     @Transactional
-    public TouristPlace addTouristPlace(TouristPlaceDao touristPlaceDao, MultipartFile[] files, User user){
+    public TouristPlace addTouristPlace(TouristPlaceDao touristPlaceDao, MultipartFile[] files, UserApp userApp){
 
         List<Region> allRegions = regionService.allRegions();
 
@@ -77,14 +78,11 @@ public class TouristPlaceService {
 
 
 
-
-
-
         TouristPlace auxTouristPlace =  new TouristPlace();
         auxTouristPlace.setComments(new ArrayList<>());
         auxTouristPlace.setTitle(touristPlaceDao.getTitle());
         auxTouristPlace.setDescription(touristPlaceDao.getDescription());
-        auxTouristPlace.setCreator(user);
+        auxTouristPlace.setCreator(userApp);
         auxTouristPlace.setOficialMedia(new ArrayList<>());
         auxTouristPlace.setLatitude(touristPlaceDao.getLatitude());
         auxTouristPlace.setLongitude(touristPlaceDao.getLongitude());
@@ -102,7 +100,7 @@ public class TouristPlaceService {
             String routeFile = fileStorageService.storeFile(file,"tourist_places/"+ newTouristPlace.getId().toString());
             OficialMedia oficialMediaAux = new OficialMedia();
             oficialMediaAux.setUrl(routeFile);
-            oficialMediaAux.setUser(user);
+            oficialMediaAux.setUserApp(userApp);
             OficialMedia oficialMedia = oficialMediaRepository.save(oficialMediaAux);
             newTouristPlace.getOficialMedia().add(oficialMedia);
             //oficialMediaRepository.save(newTouristPlace);
@@ -125,6 +123,37 @@ public class TouristPlaceService {
         return  touristPlace.getComments();
     }
 
+
+     public  TouristPlaceResponse ToResponseModel(Long userId, TouristPlace touristPlace){
+
+        List<OficialMediaResponse> oficialMediaResponses= new ArrayList<>();
+        for(OficialMedia oficialMedia : touristPlace.getOficialMedia()){
+            oficialMediaResponses.add(new OficialMediaResponse(oficialMedia.getId(), oficialMedia.getUrl(), oficialMedia.getUserApp().getId(),oficialMedia.getUserApp().getUserName()));
+        }
+
+        TouristPlaceResponse response = new TouristPlaceResponse(
+                touristPlace.getId(),
+                touristPlace.getTitle(),
+                touristPlace.getDescription(),
+                new Coordinate(touristPlace.getLatitude(),touristPlace.getLongitude()),
+                touristPlace.getStatus(),
+                new UserResponse(touristPlace.getCreator().getEmail(),touristPlace.getCreator().getUserName(),touristPlace.getCreator().getImageUrl() ),
+                oficialMediaResponses,
+                null,
+                null,
+                null,
+                userService.isFavoritePlace( userId, touristPlace.getId())
+
+        );
+
+        if(touristPlace.getRegion()!=null){
+            response.setRegion(new RegionResponse(touristPlace.getRegion().getId(),touristPlace.getRegion().getName(),""));
+            Organization org = organizationService.getOrganizationByRegionId(touristPlace.getRegion().getId());
+            response.setOrganization(new OrganizationResponse(org.getId(), org.getName(), org.getLogo()));
+
+        }
+        return response;
+    }
 
 
     /*

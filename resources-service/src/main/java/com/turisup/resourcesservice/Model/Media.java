@@ -14,5 +14,5 @@ public class Media {
     Long id;
     String url;
     @Relationship(type = "OWNER", direction = Relationship.Direction.OUTGOING)
-    User user;
+    UserApp userApp;
 }
