@@ -73,12 +73,13 @@ public class TouristPlaceController {
                 touristPlace2.getDescription(),
                 new Coordinate(touristPlace2.getLatitude(),touristPlace2.getLongitude()),
                 touristPlace2.getStatus(),
-                new UserResponse(touristPlace2.getCreator().getEmail(),touristPlace2.getCreator().getUserName(),touristPlace2.getCreator().getImageUrl() ),
+                new UserResponse(touristPlace2.getCreator().getId(),touristPlace2.getCreator().getEmail(),touristPlace2.getCreator().getUserName(),touristPlace2.getCreator().getImageUrl() ),
                 oficialMediaResponses,
                 commentsResponses,
                 null,
                 null,
-                userService.isFavoritePlace(userApp.getId(), touristPlace2.getId())
+                userService.isFavoritePlace(userApp.getId(), touristPlace2.getId()),
+                touristPlace2.getRate()
         );
 
         if(touristPlace2.getRegion()!=null){

@@ -1,5 +1,6 @@
 package com.turisup.resourcesservice.Model;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Node("TouristPlace")
 @Data
+@Builder
 public class TouristPlace {
     @Id
     @GeneratedValue
@@ -31,6 +33,8 @@ public class TouristPlace {
     private double longitude;
 
     private String status;
+    @Builder.Default
+    private double rate=999;
 
     @Relationship(type="LOCATED_IN", direction = Relationship.Direction.OUTGOING)
     public Region region;

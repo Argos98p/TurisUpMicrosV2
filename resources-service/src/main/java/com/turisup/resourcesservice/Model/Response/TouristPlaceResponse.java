@@ -24,4 +24,5 @@ public class TouristPlaceResponse {
     OrganizationResponse organization;
     RegionResponse region;
     boolean isFavorite;
+    double rate;
 }

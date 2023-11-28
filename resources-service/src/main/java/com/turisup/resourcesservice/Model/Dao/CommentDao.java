@@ -9,3 +9,5 @@ public class CommentDao {
     String content;
     int rate;
 }
+
+

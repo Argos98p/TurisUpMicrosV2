@@ -5,6 +5,7 @@ import com.turisup.resourcesservice.Model.Comment;
 import com.turisup.resourcesservice.Model.Dao.CommentDao;
 import com.turisup.resourcesservice.Model.Dao.OrganizationDao;
 import com.turisup.resourcesservice.Model.Organization;
+import com.turisup.resourcesservice.Model.Response.CommentsResponse;
 import com.turisup.resourcesservice.Model.TouristPlace;
 import com.turisup.resourcesservice.Repository.TouristPlaceRepository;
 import com.turisup.resourcesservice.Service.CommentService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/resources")
@@ -35,11 +37,8 @@ public class CommentController {
     }
 
     @GetMapping("/comment/all")
-    public ResponseEntity<Comment> getAllComments(@RequestParam("touristPlaceId") Long touristPlaceId){
-
-
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<List<CommentsResponse>> getAllComments(@RequestParam("touristPlaceId") Long touristPlaceId){
+        return new ResponseEntity<>(commentService.getAllCommentsInPlace(touristPlaceId),HttpStatus.OK);
     }
 
 }

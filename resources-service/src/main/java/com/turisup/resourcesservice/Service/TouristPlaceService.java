@@ -78,15 +78,17 @@ public class TouristPlaceService {
 
 
 
-        TouristPlace auxTouristPlace =  new TouristPlace();
-        auxTouristPlace.setComments(new ArrayList<>());
-        auxTouristPlace.setTitle(touristPlaceDao.getTitle());
-        auxTouristPlace.setDescription(touristPlaceDao.getDescription());
-        auxTouristPlace.setCreator(userApp);
-        auxTouristPlace.setOficialMedia(new ArrayList<>());
-        auxTouristPlace.setLatitude(touristPlaceDao.getLatitude());
-        auxTouristPlace.setLongitude(touristPlaceDao.getLongitude());
-        auxTouristPlace.setStatus(touristPlaceDao.getStatus());
+        TouristPlace auxTouristPlace =   TouristPlace.builder()
+                .comments(new ArrayList<>()).
+                title(touristPlaceDao.getTitle()).
+                description(touristPlaceDao.getDescription()).
+                creator(userApp).
+                oficialMedia(new ArrayList<>()).
+                latitude(touristPlaceDao.getLatitude()).
+                longitude(touristPlaceDao.getLongitude()).
+                status(touristPlaceDao.getStatus()).
+                build();
+
         if(regionVinculated!=null){
             auxTouristPlace.setRegion(regionVinculated);
         }
@@ -137,12 +139,13 @@ public class TouristPlaceService {
                 touristPlace.getDescription(),
                 new Coordinate(touristPlace.getLatitude(),touristPlace.getLongitude()),
                 touristPlace.getStatus(),
-                new UserResponse(touristPlace.getCreator().getEmail(),touristPlace.getCreator().getUserName(),touristPlace.getCreator().getImageUrl() ),
+                new UserResponse(touristPlace.getCreator().getId(),touristPlace.getCreator().getEmail(),touristPlace.getCreator().getUserName(),touristPlace.getCreator().getImageUrl() ),
                 oficialMediaResponses,
                 null,
                 null,
                 null,
-                userService.isFavoritePlace( userId, touristPlace.getId())
+                userService.isFavoritePlace( userId, touristPlace.getId()),
+                touristPlace.getRate()
 
         );
 
